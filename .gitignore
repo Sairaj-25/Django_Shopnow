@@ -33,4 +33,5 @@ htmlcov/
 
 db.sqlite3
 
-media/media/*
+# media
+media/media/images/*
