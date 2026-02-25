@@ -30,3 +30,7 @@ htmlcov/
 .coverage
 .tox/
 .pytest_cache/
+
+db.sqlite3
+
+media/media/*
