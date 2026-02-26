@@ -24,7 +24,7 @@ jobs:
       DJANGO_SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
       DB_NAME: ${{ secrets.DB_NAME }}
       DB_USER: ${{ secrets.DB_USER }}
-      DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+      DB_PASSWORD: ""
       DB_HOST: mysql
       DB_PORT: ${{ secrets.DB_PORT }}
 
@@ -40,12 +40,6 @@ jobs:
     - name: Install MySQL client
       run: sudo apt-get update && sudo apt-get install -y mysql-client
 
-    - name: Wait for MySQL
-      run: |
-        until mysqladmin ping -h "$DB_HOST" -P "$DB_PORT" -u"$DB_USER" --silent; do
-          echo "Waiting for MySQL..."
-          sleep 5
-          done
 
     - name: Install dependencies
       run: |
