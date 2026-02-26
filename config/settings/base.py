@@ -14,7 +14,7 @@ import os
 
 from pathlib import Path
 
-import environ
+import environ # django-environ
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
@@ -108,11 +108,11 @@ DATABASES = {
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.mysql",
-        "NAME": os.getenv("DB_NAME"),
-        "USER": os.getenv("DB_USER"),
-        "PASSWORD": os.getenv("DB_PASSWORD"),
-        "HOST": os.getenv("DB_HOST", "localhost"),
-        "PORT": os.getenv("DB_PORT", "3306"),
+        "NAME": env("DB_NAME"),
+        "USER": env("DB_USER"),
+        "PASSWORD": env("DB_PASSWORD"),
+        "HOST": env("DB_HOST",default = "localhost"),
+        "PORT": env("DB_PORT", default = "3306"),
     }
 }
 
@@ -164,5 +164,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR,'media/')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-RAZOR_KEY_ID = env('RAZOR_KEY_ID')
-RAZOR_KEY_SECRET = env('RAZOR_KEY_SECRET')
+# default = None (CI will NOT crash)
+
+RAZOR_KEY_ID = env('RAZOR_KEY_ID', default=None)
+RAZOR_KEY_SECRET = env('RAZOR_KEY_SECRET', default=None)
