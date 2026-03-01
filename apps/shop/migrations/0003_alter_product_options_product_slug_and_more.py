@@ -8,53 +8,88 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('shop', '0002_alter_category_options_category_created_at_and_more'),
+        ("shop", "0002_alter_category_options_category_created_at_and_more"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='product',
-            options={'ordering': ['-created_at'], 'verbose_name': 'Product', 'verbose_name_plural': 'Products'},
+            name="product",
+            options={
+                "ordering": ["-created_at"],
+                "verbose_name": "Product",
+                "verbose_name_plural": "Products",
+            },
         ),
         migrations.AddField(
-            model_name='product',
-            name='slug',
-            field=models.SlugField(blank=True, max_length=255, unique=True, verbose_name='Slug'),
+            model_name="product",
+            name="slug",
+            field=models.SlugField(
+                blank=True, max_length=255, unique=True, verbose_name="Slug"
+            ),
         ),
         migrations.AlterField(
-            model_name='product',
-            name='category',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='products', to='shop.category', verbose_name='Category'),
+            model_name="product",
+            name="category",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.PROTECT,
+                related_name="products",
+                to="shop.category",
+                verbose_name="Category",
+            ),
         ),
         migrations.AlterField(
-            model_name='product',
-            name='created_at',
-            field=models.DateTimeField(auto_now_add=True, verbose_name='Created At'),
+            model_name="product",
+            name="created_at",
+            field=models.DateTimeField(auto_now_add=True, verbose_name="Created At"),
         ),
         migrations.AlterField(
-            model_name='product',
-            name='image',
-            field=models.ImageField(blank=True, null=True, upload_to='media/images/', verbose_name='Product Image'),
+            model_name="product",
+            name="image",
+            field=models.ImageField(
+                blank=True,
+                null=True,
+                upload_to="media/images/",
+                verbose_name="Product Image",
+            ),
         ),
         migrations.AlterField(
-            model_name='product',
-            name='no_of_units',
-            field=models.PositiveIntegerField(default=1, verbose_name='Number of Units'),
+            model_name="product",
+            name="no_of_units",
+            field=models.PositiveIntegerField(
+                default=1, verbose_name="Number of Units"
+            ),
         ),
         migrations.AlterField(
-            model_name='product',
-            name='price',
-            field=models.DecimalField(decimal_places=2, max_digits=10, verbose_name='Price'),
+            model_name="product",
+            name="price",
+            field=models.DecimalField(
+                decimal_places=2, max_digits=10, verbose_name="Price"
+            ),
         ),
         migrations.AlterField(
-            model_name='product',
-            name='unit',
-            field=models.CharField(choices=[('kg', 'Kilogram'), ('g', 'Gram'), ('l', 'Liter'), ('ml', 'Milliliter'), ('piece', 'Piece')], default='piece', max_length=50, verbose_name='Unit'),
+            model_name="product",
+            name="unit",
+            field=models.CharField(
+                choices=[
+                    ("kg", "Kilogram"),
+                    ("g", "Gram"),
+                    ("l", "Liter"),
+                    ("ml", "Milliliter"),
+                    ("piece", "Piece"),
+                ],
+                default="piece",
+                max_length=50,
+                verbose_name="Unit",
+            ),
         ),
         migrations.AlterField(
-            model_name='product',
-            name='updated_at',
-            field=models.DateTimeField(auto_now=True, default=django.utils.timezone.now, verbose_name='Updated At'),
+            model_name="product",
+            name="updated_at",
+            field=models.DateTimeField(
+                auto_now=True,
+                default=django.utils.timezone.now,
+                verbose_name="Updated At",
+            ),
             preserve_default=False,
         ),
     ]
