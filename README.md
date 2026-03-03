@@ -1,69 +1,70 @@
 # 🛒 Shopnow (E‑Kart) – Django E‑Commerce Web Application
 
-## 📌 Project Overview
+![Python Version](https://img.shields.io/badge/python-3.11-blue)
+![Django Version](https://img.shields.io/badge/django-5.1.4-green)
+![Database](https://img.shields.io/badge/database-MySQL-orange)
+![Payment Gateway](https://img.shields.io/badge/payments-Razorpay-blueviolet)
 
-**Shopnow (E‑Kart)** is a full‑stack e‑commerce web application built using **Django**. The project allows users to register, log in, browse products, add items to a cart, and place orders. It follows Django’s **MTV (Model‑Template‑View)** architecture and uses Bootstrap for responsive UI.
+**Shopnow (E‑Kart)** is a full‑stack, production-ready e‑commerce web application built using the **Django** framework. It provides a complete shopping experience, allowing users to register, log in, browse products by category, manage their shopping cart, and securely place orders using the Razorpay payment gateway. 
 
-This project is designed as a **learning + production‑ready mini e‑commerce platform**, suitable for fresher interviews, real‑world demonstrations, and scalable deployment scenarios including online payments and order management.
+The project strictly adheres to Django’s **MTV (Model‑Template‑View)** architecture and uses Bootstrap 5 and Axios to deliver a responsive, dynamic frontend.
 
 ---
 
-## 🚀 Features
 
-### 👤 User Module
+## 🚀 Key Features
 
-* User Registration
-* User Login & Logout
-* Forgot Password (Reset password manually)
-* Django Authentication System
+### 👤 User Management
+- Secure user registration, login, and logout.
+- Forgot Password functionality.
+- Dedicated user profile to view order history.
 
-### 🛍️ Product Module
+### 🛍️ Product Catalog
+- Dynamic product listing with clear pricing and unit details.
+- Categorized browsing (Fruits, Vegetables, Groceries, etc.).
+- Image handling via Django Media.
+- Search functionality to quickly find products.
 
-* Product listing with price & unit
-* Category‑wise products
-* Product images using Django Media
-* Dynamic product rendering
+### 🛒 Dynamic Cart System
+- AJAX-powered Add to Cart functionality (no page reloads).
+- Real-time cart quantity updates (+/- controls).
+- Automatic calculation of delivery and handling charges based on the cart total.
 
-### 🛒 Cart Module
+### 💳 Secure Payments & Checkout
+- **Razorpay** payment gateway integration.
+- Secure online transaction handling and verification.
+- Order creation only upon successful payment verification.
 
-* Add to cart functionality
-* Quantity management
-* Dynamic cart update (frontend‑based)
+### 📦 Order Tracking
+- Detailed order history accessible to users.
+- Order status tracking (Pending, Paid, Completed, etc.).
+- Admin capabilities to view and manage all orders.
 
-### 💳 Payment Module (Razorpay)
-
-* Razorpay payment gateway integration
-* Secure online payments
-* Payment verification and order confirmation
-
-### 📦 Order Module
-
-* Order creation after successful payment
-* Order history for users
-* Order status tracking
-
-### 🎨 UI / Frontend
-
-* HTML5, CSS3
-* Bootstrap 5
-* Javascript
-* Responsive design
-* Reusable templates
 
 ---
 
 ## 🧰 Tech Stack
 
-| Layer        | Technology                       |
-| ------------ | -------------------------------- |
-| Backend      | Python, Django                   |
-| Frontend     | HTML, CSS, Bootstrap 5, JavaScript (Axios) |
-| Database     | MySQL (used as primary database) |
-| Payments     | Razorpay Payment Gateway         |
-| Auth         | Django Auth System               |
-| Static Files | Django Static & Media            |
+| Component | Technology |
+| :--- | :--- |
+| **Backend Framework** | Python 3.11, Django 5.1.4 |
+| **Frontend** | HTML5, CSS3, Bootstrap 5, JavaScript (Axios for AJAX) |
+| **Database** | MySQL (configured via `django-environ`) |
+| **Payment Gateway** | Razorpay API |
+| **Authentication** | Django Auth System |
 
 ---
+
+## 🧠 Architecture Used
+
+- **MTV (Model-Template-View)**
+- AJAX-based client–server communication using **Axios**
+- REST-style Django views for cart & order actions
+- Separation of concerns between UI, logic, and data
+- Secure authentication & CSRF protection
+ 
+---
+
 
 # 📁 Project Structure
 
@@ -71,7 +72,7 @@ This project is designed as a **learning + production‑ready mini e‑commerce 
 Shopnow/
 │
 ├── apps/
-│   └── shop/
+│   └── shop/                  # Core application (Models, Views, URLs, Forms)
 │       ├── __init__.py
 │       ├── admin.py
 │       ├── apps.py
@@ -86,7 +87,7 @@ Shopnow/
 │       └── templatetags/
 │           └── custom_tags.py
 │
-├── config/
+├── config/                  # Django project configuration & settings
 │   ├── __init__.py
 │   ├── urls.py              # Project routing
 │   ├── wsgi.py              # WSGI entrypoint
@@ -102,15 +103,123 @@ Shopnow/
 │   └── media/
 │       └── images/
 │
-├── static/                  # Static assets (CSS, JS, images)
+├── static/                  # CSS, JavaScript (Axios logic), and UI assets
 │
-├── template/                # Global HTML templates
+├── template/                # Global HTML Templates (Bootstrap components)
 │
 ├── .gitignore
 ├── README.md
 ├── manage.py                # Django project launcher
 └── requirements.txt         # Dependencies list
+
 ```
+
+---
+
+## ⚙️ Prerequisites
+
+Before you begin, ensure you have the following installed on your machine:
+- **Python 3.10+**
+- **MySQL Server** (Running locally or remotely)
+- **Git**
+
+---
+
+## 📦 Installation & Setup
+
+### 1. Clone the repository
+
+```bash
+git clone [https://github.com/Sairaj-25/django_shopnow.git](https://github.com/Sairaj-25/django_shopnow.git)
+cd django_shopnow
+```
+
+### 2. Set up a Virtual Environment
+- Isolate your project dependencies:
+
+```bash
+python -m venv venv
+```
+- Windows
+```
+venv\Scripts\activate
+```
+
+- macOS / Linux
+```
+source venv/bin/activate
+```
+
+### 3. Install Dependencies
+```bash
+pip install -r requirements.txt
+```
+### 4. Configure Environment Variables
+- Create a .env file in the root directory (alongside manage.py) and add your database credentials and API keys:
+
+
+```
+# Django Settings
+DJANGO_SECRET_KEY="your-super-secret-django-key"
+DEBUG=True
+
+# Database Configuration (MySQL)
+DB_NAME="your_db_name"
+DB_USER="root"
+DB_PASSWORD="your_db_password"
+DB_HOST="127.0.0.1"
+DB_PORT="3306"
+
+# Razorpay API Keys
+RAZOR_KEY_ID="your_razorpay_key_id"
+RAZOR_KEY_SECRET="your_razorpay_key_secret"
+```
+
+### 5. Create Database
+- Make sure you create the corresponding MySQL database (DB_NAME) on your MySQL server before running migrations.
+```
+CREATE DATABASE your_db_name;
+```
+
+### 6. Apply Migrations
+- Initialize the database and apply the schema:
+
+```bash
+python manage.py makemigrations
+```
+```bash
+python manage.py migrate
+```
+### 7. Create a Superuser (Admin)
+```bash
+python manage.py createsuperuser
+```
+
+### 8. Run the Development Server
+
+```bash
+python manage.py runserver
+```
+```
+Open your browser and navigate to: http://127.0.0.1:8000/
+```
+
+
+## 🔐 Admin Panel
+- Access the Django admin dashboard at:
+```
+http://127.0.0.1:8000/admin/
+```
+
+- From here, you can:
+
+- Add and manage Products & Categories.
+
+- Monitor incoming Orders and Payments.
+
+- Manage Users and Customers.
+
+---
 
 
 ## 🔁 Project Flow (Step‑by‑Step)
@@ -139,97 +248,17 @@ User → Home Page → Product List → Product Card → Price & Unit Display
 User → Click Add to Cart → Product ID Captured → Cart Updated → Quantity Control
 ```
 
-User → Click Add to Cart → Product ID Captured → Cart Updated → Quantity Control
-
-```
-
 ### 5️⃣ Payment & Order Flow
+
 ```
-
 User → Checkout → Razorpay Payment → Payment Verification → Order Created → Order History Updated (MySQL)
-
 ```
 
 ### 6️⃣ Logout Flow
-```
 
+```
 User → Logout → Session Destroyed → Redirect to Home
-
-````
-
----
-
-## 🧠 Architecture Used
-
-- **MTV (Model-Template-View)**
-- AJAX-based client–server communication using **Axios**
-- REST-style Django views for cart & order actions
-- Separation of concerns between UI, logic, and data
-- Secure authentication & CSRF protection
-
-
----
-
-### ⚙️ How to Run the Project
-
-### 1️⃣ Clone or Extract Project
-```bash
-git clone <repository-url>
-cd E-Kart/Shopnow
-
-````
-
-### 2️⃣ Activate Virtual Environment
-
-```bash
-env\Scripts\activate   # Windows
-source env/bin/activate # Linux/Mac
 ```
-
-### 3️⃣ Install Dependencies
-
-```bash
-pip install django
-```
-
-### 4️⃣ Run Migrations
-
-```bash
-python manage.py migrate
-```
-
-### 5️⃣ Create Superuser
-
-```bash
-python manage.py createsuperuser
-```
-
-### 6️⃣ Start Server
-
-```bash
-python manage.py runserver
-```
-
-Open browser:
-
-```
-http://127.0.0.1:8000/
-```
-
----
-
-## 🔐 Admin Panel
-
-```
-http://127.0.0.1:8000/admin/
-```
-
-Admin can:
-
-* Add products
-* Manage users
-* Manage categories
-
 ---
 
 ## 📈 Future Enhancements
@@ -247,6 +276,4 @@ Admin can:
 
 **Sairaj Jadhav**
 
-
 ---
-
