@@ -500,7 +500,9 @@ def payment_done(request):
             cart_items.delete()
             orders = Order.objects.filter(user=request.user).order_by("-created_at")
             context = {"orderitems": order_items, "order": order}
-            return redirect("order", context)  # Redirect to orders page after successful payment
+            return redirect(
+                "order", context
+            )  # Redirect to orders page after successful payment
 
         except Order.DoesNotExist:
             print("Order Not Found!")  # Debugging
