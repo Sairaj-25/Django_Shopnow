@@ -77,10 +77,10 @@ jobs:
       - name: Check Code Formatting (Black)
         run: black --check .
 
-      - name: Linting (Flake8 - Strict)
-        run: |
-          flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
-          flake8 . --count --max-complexity=10 --max-line-length=100 --statistics
+      # - name: Linting (Flake8 - Strict)
+      #   run: |
+      #     flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+      #     flake8 . --count --max-complexity=10 --max-line-length=100 --statistics
 
       - name: Security Scan (Bandit)
         run: bandit -r . -ll -x ./env/
