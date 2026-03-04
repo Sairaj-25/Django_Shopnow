@@ -30,8 +30,9 @@ jobs:
           --health-retries=5
 
     env:
-      DJANGO_SECRET_KEY: "ci-test-secret-key-do-not-use-in-production"
-      DEBUG: "True"
+      DEBUG: False
+      ALLOWED_HOSTS: localhost,127.0.0.1
+      DJANGO_SECRET_KEY: "very-long-random-secret-key-with-50+characters-123456"
 
       DB_NAME: test_db
       DB_USER: root
