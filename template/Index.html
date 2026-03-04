@@ -80,7 +80,11 @@
         <div class="col-4 col-sm-3 col-md-2 {% if forloop.counter > 6 %}d-none{% endif %}">
             <div class="card" style="width: 100%;">
                 <a href="{% url 'product_info' pid=product.id %}">
-                    <img src="{{ product.image.url }}" style="object-fit: cover;" class="card-img-top" alt="">
+                    {% if product.image %}
+                        <img src="{{ product.image.url }}" style="object-fit: cover;" class="card-img-top" alt="{{ product.name|upper}}">
+                    {% else %}
+                        <img src="{% static 'images/placeholder.jpg' %}" style="object-fit: cover;" class="card-img-top" alt="No image available">
+                    {% endif %}
                 </a>
                 <div class="m-1 card-body p-0">
                     <a href="{% url 'product_info' pid=product.id %}" style="text-decoration: none;">

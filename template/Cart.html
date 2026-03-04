@@ -37,7 +37,11 @@
                 <div class="d-flex justify-content-start gap-3 align-items-center" style="min-width: 53%;">
                     <div>
                         <a href="{% url 'product_info' pid=item.product.id %}">
-                            <img src="{{ item.product.image.url }}" class="img-fluid rounded" style="height: 3rem; width: 5rem; object-fit: cover;" alt="Image">
+                            {% if item.product.image %}
+                                <img src="{{ item.product.image.url }}" class="img-fluid rounded" style="height: 3rem; width: 5rem; object-fit: cover;"  alt="{{ item.product.name }}">
+                            {% else %}
+                                <img src="{% static 'images/placeholder.jpg' %}" class="img-fluid rounded" style="height: 3rem; width: 5rem; object-fit: cover;" alt="No image available">
+                            {% endif %}
                         </a>
                     </div>
                     <div class="d-flex flex-column justify-content-start">
