@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
-from .models import *
+from apps.shop.models import Category, Product, Order, OrderItem, CartItem, Customer
+
 
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
@@ -98,7 +99,7 @@ def register_user(request):
         messages.success(request, "Welcome! Your account has been created.")
         return redirect("/")
 
-    return render(request, "register.html")
+    return render(request, "register.html", context)
 
 
 def logout_user(request):
@@ -499,7 +500,7 @@ def payment_done(request):
             cart_items.delete()
             orders = Order.objects.filter(user=request.user).order_by("-created_at")
             context = {"orderitems": order_items, "order": order}
-            return redirect("order")  # Redirect to orders page after successful payment
+            return redirect("order", context)  # Redirect to orders page after successful payment
 
         except Order.DoesNotExist:
             print("Order Not Found!")  # Debugging

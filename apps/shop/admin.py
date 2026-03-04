@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import *
+from apps.shop.models import Category, Product, Order, OrderItem, CartItem, Customer
 
 # Register your models here.
 
