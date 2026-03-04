@@ -1,14 +1,19 @@
-name: Django CI
+name: Shopnow CI
 
 on:
   push:
-    branches: [ "main", "master" ]
+    branches: ["main", "master"]
   pull_request:
-    branches: [ "main", "master" ]
+    branches: ["main", "master"]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  build:
+  build-and-test:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
 
     services:
       mysql:
@@ -19,22 +24,23 @@ jobs:
         ports:
           - 3306:3306
         options: >-
-          --health-cmd="mysqladmin ping --silent"
+          --health-cmd="mysqladmin ping -h 127.0.0.1 -uroot -proot"
           --health-interval=10s
           --health-timeout=5s
           --health-retries=5
 
     env:
-      # Required by config/settings/base.py
       DJANGO_SECRET_KEY: "ci-test-secret-key-do-not-use-in-production"
       DEBUG: "True"
-      
-      # Database Configuration
+
       DB_NAME: test_db
       DB_USER: root
       DB_PASSWORD: root
       DB_HOST: 127.0.0.1
       DB_PORT: 3306
+
+      PYTHONUNBUFFERED: 1
+      CI: "True"
 
     steps:
       - name: Checkout Code
@@ -44,27 +50,69 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-          cache: "pip" # Speeds up subsequent runs by caching dependencies
+          cache: "pip"
 
       - name: Install System Dependencies
         run: |
           sudo apt-get update
           sudo apt-get install -y pkg-config libmysqlclient-dev default-mysql-client
 
-      - name: Install Python Dependencies
+      - name: Install Dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
+          pip install flake8 black bandit coverage pip-audit
 
       - name: Wait for MySQL
         run: |
           until mysqladmin ping -h 127.0.0.1 -uroot -proot --silent; do
-            echo "Waiting for MySQL to be ready..."
+            echo "Waiting for MySQL..."
             sleep 2
           done
 
-      - name: Run Migrations
-        run: python manage.py migrate
+      # -------------------------------
+      # Code Quality Checks
+      # -------------------------------
 
-      - name: Run Tests
-        run: python manage.py test
+      - name: Check Code Formatting (Black)
+        run: black --check .
+
+      - name: Linting (Flake8 - Strict)
+        run: |
+          flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+          flake8 . --count --max-complexity=10 --max-line-length=100 --statistics
+
+      - name: Security Scan (Bandit)
+        run: bandit -r . -ll -x ./env/
+
+      - name: Dependency Vulnerability Scan
+        run: pip-audit
+
+      # -------------------------------
+      # Django Production Safety Checks
+      # -------------------------------
+
+      - name: Django Deploy Check
+        run: python manage.py check --deploy
+
+      - name: Verify Collectstatic
+        run: python manage.py collectstatic --noinput --dry-run
+
+      - name: Run Migrations
+        run: python manage.py migrate --noinput
+
+      # -------------------------------
+      # Tests
+      # -------------------------------
+
+      - name: Run Tests with Coverage
+        run: |
+          coverage run manage.py test
+          coverage report -m
+          coverage xml
+
+      - name: Upload Coverage Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: coverage.xml
