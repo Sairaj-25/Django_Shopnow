@@ -262,7 +262,7 @@ User → Logout → Session Destroyed → Redirect to Home
 ---
 
 ## 📈 Future Enhancements
-
+* Pagination for products
 * Invoice generation (PDF)
 * Order cancellation & refunds
 * REST API for mobile app
