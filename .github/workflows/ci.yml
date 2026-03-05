@@ -11,7 +11,46 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build-and-test:
+
+  # JOB 1: Fast Static Analysis & Security
+
+  lint-and-security:
+    name: Code Quality & Security
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: Install Quality Tools
+        run: |
+          python -m pip install --upgrade pip
+          pip install flake8 black bandit pip-audit
+
+      - name: Check Code Formatting (Black)
+        run: black --check .
+
+      - name: Lint Code (Flake8)
+        # Uncommented and configured to strictly check for syntax errors and undefined names
+        run: flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+
+      - name: Security Scan (Bandit)
+        run: bandit -r . -ll -ii -x "venv,env,tests"
+
+      - name: Dependency Vulnerability Scan
+        run: pip-audit
+
+
+  # JOB 2: Database Setup & Django Testing
+
+  test:
+    name: Run Django Tests
+    needs: lint-and-security # Ensures this heavy job only runs if the code is clean
     runs-on: ubuntu-latest
     timeout-minutes: 20
 
@@ -30,16 +69,14 @@ jobs:
           --health-retries=5
 
     env:
-      DEBUG: False
+      DEBUG: "False"
       ALLOWED_HOSTS: localhost,127.0.0.1
       DJANGO_SECRET_KEY: "very-long-random-secret-key-with-50+characters-123456"
-
       DB_NAME: test_db
       DB_USER: root
       DB_PASSWORD: root
       DB_HOST: 127.0.0.1
       DB_PORT: 3306
-
       PYTHONUNBUFFERED: 1
       CI: "True"
 
@@ -54,44 +91,23 @@ jobs:
           cache: "pip"
 
       - name: Install System Dependencies
+        # Required to compile mysqlclient
         run: |
           sudo apt-get update
           sudo apt-get install -y pkg-config libmysqlclient-dev default-mysql-client
 
-      - name: Install Dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
-          pip install flake8 black bandit coverage pip-audit
-
-      - name: Wait for MySQL
+      - name: Wait for MySQL Service
         run: |
           until mysqladmin ping -h 127.0.0.1 -uroot -proot --silent; do
-            echo "Waiting for MySQL..."
+            echo "Waiting for MySQL container to be ready..."
             sleep 2
           done
 
-      # -------------------------------
-      # Code Quality Checks
-      # -------------------------------
-
-      - name: Check Code Formatting (Black)
-        run: black --check .
-
-      # - name: Linting (Flake8 - Strict)
-      #   run: |
-      #     flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
-      #     flake8 . --count --max-complexity=10 --max-line-length=100 --statistics
-
-      - name: Security Scan (Bandit)
-        run: bandit -r . -ll -x ./env/
-
-      - name: Dependency Vulnerability Scan
-        run: pip-audit
-
-      # -------------------------------
-      # Django Production Safety Checks
-      # -------------------------------
+      - name: Install Python Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install coverage
 
       - name: Django Deploy Check
         run: python manage.py check --deploy
@@ -99,12 +115,12 @@ jobs:
       - name: Verify Collectstatic
         run: python manage.py collectstatic --noinput --dry-run
 
+      - name: Enforce Migrations Commits
+        # Fails the pipeline if you altered models but forgot to commit the migration files
+        run: python manage.py makemigrations --check --dry-run
+
       - name: Run Migrations
         run: python manage.py migrate --noinput
-
-      # -------------------------------
-      # Tests
-      # -------------------------------
 
       - name: Run Tests with Coverage
         run: |
@@ -117,3 +133,4 @@ jobs:
         with:
           name: coverage-report
           path: coverage.xml
+          retention-days: 14
