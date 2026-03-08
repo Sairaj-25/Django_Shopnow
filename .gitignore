@@ -1,5 +1,10 @@
 # Python
-__pycache__/
+apps/__pycache__/
+apps/shop/__pycache__/
+apps/shop/migrations/__pycache__/
+apps/shop/templatetags/__pycache__/
+config/__pycache__/
+config/settings/__pycache__/
 *.py[cod]
 
 # Virtual env

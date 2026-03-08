@@ -1,0 +1,6 @@
+services:
+  - type: web
+    name: shopnow
+    env: python
+    buildCommand: "./build.sh"
+    startCommand: "gunicorn shopnow.wsgi:application"
