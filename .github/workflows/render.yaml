@@ -3,4 +3,4 @@ services:
     name: shopnow
     env: python
     buildCommand: "./build.sh"
-    startCommand: "gunicorn shopnow.wsgi:application"
+    startCommand: "startCommand: gunicorn shopnow.wsgi --bind 0.0.0.0:$PORT"
