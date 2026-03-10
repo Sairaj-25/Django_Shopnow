@@ -39,35 +39,38 @@
       </div>
       <div class="col-sm-6 col-lg-2">
         <div class="footer-heading">Shop</div>
-        <ul class="footer-links">
-          <li><a href="/">All Products</a></li>
-          {% for cat in categories %}
-          <li><a href="/?category={{ cat.id }}">{{ cat.name }}</a></li>
-          {% empty %}
-          <li><a href="#">Fruits</a></li>
-          <li><a href="#">Vegetables</a></li>
-          <li><a href="#">Groceries</a></li>
-          {% endfor %}
-        </ul>
+          <ul class="footer-links">
+            <li><a href="{% url 'home' %}">All Products</a></li>
+
+            {% for category, product_list in products.items %}
+                <li>
+                    <a href="{% url 'all_products' category.id %}">
+                        {{ category.name }}
+                    </a>
+                </li>
+            {% empty %}
+                <li>No categories available</li>
+            {% endfor %}
+          </ul>
       </div>
       <div class="col-sm-6 col-lg-2">
         <div class="footer-heading">Account</div>
         <ul class="footer-links">
-          <li><a href="login">Login</a></li>
-          <li><a href="register">Register</a></li>
-          <li><a href="orders">My Orders</a></li>
-          <li><a href="cart/">My Cart</a></li>
-          <li><a href="profile">Profile</a></li>
+          <li><a href="{% url 'login' %}">Login</a></li>
+          <li><a href="{% url 'register' %}">Register</a></li>
+          <li><a href="{% url 'order' %}">My Orders</a></li>
+          <li><a href="{% url 'cart' %}">My Cart</a></li>
+          <li><a href="{% url 'profile' %}">Profile</a></li>
         </ul>
       </div>
       <div class="col-sm-6 col-lg-2">
         <div class="footer-heading">Info</div>
         <ul class="footer-links">
-          <li><a href="about">About Us</a></li>
-          <li><a href="contact">Contact</a></li>
-          <li><a href="policy">Delivery Policy</a></li>
-          <li><a href="policy">Return Policy</a></li>
-          <li><a href="feedback">FAQs</a></li>
+          <li><a href="{% url 'about' %}">About Us</a></li>
+          <li><a href="{% url 'contact' %}">Contact</a></li>
+          <li><a href="{% url 'policy' %}">Delivery Policy</a></li>
+          <li><a href="{% url 'policy' %}">Return Policy</a></li>
+          <li><a href="{% url 'feedback' %}">FAQs</a></li>
         </ul>
       </div>
       <div class="col-sm-6 col-lg-2">

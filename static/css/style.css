@@ -4,7 +4,7 @@ html, body {
     scroll-behavior: auto !important;
 }
 
- /* ─── NAVBAR ────────────────────────────────────────────────── */
+ /*  NAVBAR  */
     #mainNav {
       background: #fff;
       border-bottom: 1px solid #ede9df;
@@ -68,6 +68,31 @@ html, body {
       width: 16px; height: 16px; border-radius: 50%;
       display: flex; align-items: center; justify-content: center;
     }
+
+        /*  PROMO STRIP  */
+    #promoStrip {
+      background: linear-gradient(90deg, #0f1923 0%, #1a2e40 50%, #0f1923 100%);
+      padding: 20px 0;
+      overflow: hidden;
+    }
+    .promo-items { display: flex; gap: 48px; align-items: center; white-space: nowrap; }
+    .promo-item { display: flex; align-items: center; gap: 10px; color: #b0a892; font-size: .87rem; }
+    .promo-item i { color: var(--amber); font-size: 1.1rem; }
+    .promo-divider { color: rgba(255,255,255,.15); font-size: 1.2rem; }
+
+    /*  TOPBAR  */
+    #topbar {
+      background: linear-gradient(90deg, #60a7ee 0%, #3893e3 50%, #0f5daa 100%);
+      padding: 20px 0;
+      overflow: hidden;
+      color: #ffc227;
+      font-size: .78rem;
+      letter-spacing: .04em;
+      padding: 7px 0;
+      text-align: center;
+    }
+    #topbar span { color: var(--amber); font-weight: 600; }
+
 
     /* Category nav row */
     #catNav {

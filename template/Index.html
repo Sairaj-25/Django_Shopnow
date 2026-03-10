@@ -5,6 +5,21 @@
 
 {% block 'main' %}
 
+    <!-- Promostrip-->
+    <div id="promoStrip">
+      <div class="container">
+        <div class="promo-items justify-content-between d-flex flex-wrap gap-3">
+          <div class="promo-item"><i class="bi bi-truck"></i><span>Free delivery on orders ₹199+</span></div>
+          <div class="promo-divider d-none d-md-block">|</div>
+          <div class="promo-item"><i class="bi bi-shield-check"></i><span>100% quality assured</span></div>
+          <div class="promo-divider d-none d-md-block">|</div>
+          <div class="promo-item"><i class="bi bi-arrow-return-left"></i><span>Delivery in < 30  mins</span></div>
+          <div class="promo-divider d-none d-md-block">|</div>
+          <div class="promo-item"><i class="bi bi-credit-card"></i><span>Secure Razorpay checkout</span></div>
+        </div>
+      </div>
+    </div>
+
     <!-- Carousel -->
     <div class="container-fluid mt-md-3 mb-md-3">
         <div id="autoCarousel" class="carousel slide" data-bs-ride="carousel">
@@ -21,7 +36,7 @@
                 <!-- slide 1 -->
                 <div class="carousel-item active" data-bs-interval="3000">
                     <a href="#">
-                        <img src="media\images\carousel 1.jpeg" class="d-block w-100" style="height: 50vh; object-fit: cover;" alt="">
+                        <img src="{% static 'images/carousel 1.jpeg' %}" class="d-block w-100" style="height: 50vh; object-fit: cover;" alt="">
                     </a>
                     <div class="carousel-caption d-none d-md-block">
                         <h5>Fruits</h5>
@@ -32,7 +47,7 @@
                 <!-- slide 2 -->
                 <div class="carousel-item" data-bs-interval="3000">
                     <a href="">
-                        <img src="media\images\carousel 2.jpeg" class="d-block w-100" style="height: 50vh; object-fit: cover;" alt="">                    </a>
+                        <img src="{% static 'images/carousel 2.jpeg' %}" class="d-block w-100" style="height: 50vh; object-fit: cover;" alt="">                    </a>
                     <div class="carousel-caption d-none d-md-block">
                         <h5></h5>
                         <p>Description for the first slide.</p>
@@ -42,7 +57,7 @@
                 <!-- slide 3 -->
                 <div class="carousel-item" data-bs-interval="3000">
                     <a href="">
-                        <img src="media\images\carousel 3.jpeg" class="d-block w-100" style="height: 50vh; object-fit: cover;" alt="">                    </a>
+                        <img src="{% static 'images/carousel 3.jpeg' %}" class="d-block w-100" style="height: 50vh; object-fit: cover;" alt="">                    </a>
                     <div class="carousel-caption d-none d-md-block">
                         <h5></h5>
                         <p>Description for the first slide.</p>
@@ -62,8 +77,26 @@
         </div>
     </div>  <!-- Carousel ends -->
 
+<!--  CATEGORY NAV  -->
+    <div id="catNav">
+      <div class="container">
+        <ul>
+            {% for category, product_list in products.items %}
+                <li>
+                    <a href="{% url 'all_products' category.id %}">
+                        {{ category.name }}
+                    </a>
+                </li>
+            {% empty %}
+                <li>No categories available</li>
+            {% endfor %}
+        </ul>
+      </div>
+    </div>
 
-
+<div id="topbar">
+  🚚 Free delivery on orders above <span>₹199</span> &nbsp;·&nbsp; 🛒 Fresh groceries, fruits & vegetables at your fingertips
+</div>
 
 <!-- Products Section -->
 <div class="container">
