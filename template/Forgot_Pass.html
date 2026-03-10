@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,7 +19,7 @@
         <div class="col-md-6">
             <img 
                 class="img-fluid w-100 h-100"
-                src="media/images/rb_2147495474.png"
+                src="{% static 'images/rb_2147495474.png' %}"
                 style="object-fit: cover;"
                 alt="ShopNow Image">
         </div>
@@ -73,7 +74,7 @@
                 <hr>
                 <div class="text-center mb-3">
                     Back to login?
-                    <a href="/login" style="text-decoration: none;">Login</a>
+                    <a href="{% url 'login' %}" style="text-decoration: none;">Login</a>
                 </div>
 
                 {% if success %}

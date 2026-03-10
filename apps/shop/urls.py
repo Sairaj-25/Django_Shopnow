@@ -7,11 +7,11 @@ from apps.shop import views
 urlpatterns = [
     path("admin/", admin.site.urls),
     # Home Page
-    path("", views.home),
+    path("", views.home, name="home"),
     # register
     path("register", views.register_user, name="register"),
     # login
-    path("login", views.login_user, name="login"),
+    path("login/", views.login_user, name="login"),
     # logout
     path("logout", views.logout_user, name="logout"),
     path("forgot_pass", views.forgot_pass, name="forgot_pass"),
