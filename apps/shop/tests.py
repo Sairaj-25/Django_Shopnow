@@ -195,7 +195,7 @@ class ShopViewsTest(TestCase):
 
         url = reverse("update_quantity", args=[self.product.id, "decrement"])
         response = self.client.post(url, HTTP_REFERER="/cart/")
-        self.assertEqual(response.status_code, [200, 302])
+        self.assertIn(response.status_code, [200, 302])
         self.assertFalse(CartItem.objects.filter(id=cart_item.id).exists())
 
         # The view subtracts 1, making it 0.
