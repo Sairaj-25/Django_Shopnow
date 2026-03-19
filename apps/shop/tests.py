@@ -2,7 +2,7 @@ import json
 from django.test import TestCase, Client
 from django.urls import reverse
 from django.contrib.auth.models import User
-from apps.shop.models import Category, Product, Customer, CartItem, Order, OrderItem
+from apps.shop.models import Category, Product, CartItem
 from apps.shop.forms import CustomerForm
 
 
@@ -195,6 +195,8 @@ class ShopViewsTest(TestCase):
 
         url = reverse("update_quantity", args=[self.product.id, "decrement"])
         response = self.client.post(url, HTTP_REFERER="/cart/")
+        self.assertIn(response.status_code, [200, 302])
+        self.assertFalse(CartItem.objects.filter(id=cart_item.id).exists())
 
         # The view subtracts 1, making it 0.
         # Your custom CartItem.save() method should automatically delete it.
