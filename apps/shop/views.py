@@ -1,9 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.urls import reverse
 from apps.shop.models import Category, Product, Order, OrderItem, CartItem, Customer
 
 
-from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
@@ -14,10 +12,8 @@ from django.contrib.auth.decorators import login_required
 
 # Customerform
 from .forms import CustomerForm
-from django.views import View
 import razorpay
 from django.conf import settings
-from django.http import HttpResponseBadRequest
 
 # Create your views here.
 
@@ -283,12 +279,8 @@ def policy(request):
 
 
 # later: save to DB or send email
+
 def feedback(request):
-    if request.method == "POST":
-        name = request.POST.get("name")
-        email = request.POST.get("email")
-        rating = request.POST.get("rating")
-        message = request.POST.get("message")
     return render(request, "Feedback.html")
 
 
@@ -500,7 +492,7 @@ def payment_done(request):
             # Clear user's cart
             cart_items.delete()
             orders = Order.objects.filter(user=request.user).order_by("-created_at")
-            context = {"orderitems": order_items, "order": order}
+            context = {"orderitems": order_items, "order": orders}
             return redirect(
                 "order", context
             )  # Redirect to orders page after successful payment

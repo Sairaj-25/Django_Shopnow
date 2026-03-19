@@ -6,7 +6,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("shop", "0002_alter_category_options_category_created_at_and_more"),
     ]
