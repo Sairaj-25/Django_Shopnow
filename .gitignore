@@ -1,4 +1,5 @@
 # Python
+__pycache__/
 apps/__pycache__/
 apps/shop/__pycache__/
 apps/shop/migrations/__pycache__/
@@ -40,3 +41,4 @@ db.sqlite3
 
 # media
 media/media/images/*
+media/*
