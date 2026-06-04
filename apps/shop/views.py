@@ -96,7 +96,7 @@ def register_user(request):
         messages.success(request, "Welcome! Your account has been created.")
         return redirect("/")
 
-    return render(request, "register.html", context)
+    return render(request, "Register.html", context)
 
 
 def logout_user(request):
