@@ -269,6 +269,47 @@ User → Logout → Session Destroyed → Redirect to Home
 * Docker & cloud deployment (AWS)
 * Advanced sales analytics dashboard
 
+---
+
+## 🖼️ Application Preview
+
+The screenshots below provide a visual walkthrough of the **Shopnow (E-Kart)** application.
+
+---
+
+### 1. 🔐 Login Page
+
+![Login Page](README_images/login.png)
+
+---
+
+### 2. 📝 Registration Page
+
+![Registration Page](README_images/register.png)
+
+---
+
+### 3. 🏠 Homepage – Hero Banner & Category Navigation
+
+![Homepage Hero Banner](README_images/dashboard_1.png)
+
+---
+
+### 4. 🛍️ Product Catalog – Category-wise Listing
+
+![Product Catalog by Category](README_images/dashboard_2.png)
+
+---
+
+### 5. 🔍 Category Filter – Dedicated Product Page
+
+![Category Product Page – Fruits](README_images/dashboard_3.png)
+
+---
+
+### 6. 🛒 Shopping Cart & Order Summary
+
+![Shopping Cart](README_images/cart.png)
 
 ---
 
